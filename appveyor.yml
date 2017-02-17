@@ -4,6 +4,14 @@ build:
   
 environment:
   matrix:
+    - BUILD_TYPE: Release
+      COMPILER: MSVC15
+      PLATFORM: x64
+      LIB: dll
+    - BUILD_TYPE: Release
+      COMPILER: MSVC15
+      PLATFORM: Win32
+      LIB: dll
     - COMPILER: MinGW-w64
       ABI: 32
       LIB: --enable-static --disable-shared
@@ -19,9 +27,11 @@ environment:
     - BUILD_TYPE: Release
       COMPILER: MSVC15
       PLATFORM: x64
+      LIB: lib
     - BUILD_TYPE: Release
       COMPILER: MSVC15
       PLATFORM: Win32
+      LIB: lib
 #    - BUILD_TYPE: Debug
 #      COMPILER: MSVC15
 #      PLATFORM: x64
@@ -33,7 +43,7 @@ build_script:
   - if [%COMPILER%]==[MinGW-w64] mkdir bin && cd bin\ && appveyor DownloadFile http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe -fileName yasm.exe
   - if [%COMPILER%]==[MinGW-w64] C:\msys64\usr\bin\sh.exe --login /c/projects/mpir/.appveyor_msys_build.sh
   - if [%COMPILER%]==[MSVC15] cd build.vc14
-  - if [%COMPILER%]==[MSVC15] msbuild.bat gc lib %PLATFORM% %BUILD_TYPE% +tests
+  - if [%COMPILER%]==[MSVC15] msbuild.bat gc %LIB% %PLATFORM% %BUILD_TYPE% +tests
 
 test_script:
   - if [%COMPILER%]==[MSVC15] cd mpir-tests
