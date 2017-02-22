@@ -23,19 +23,17 @@ set msbdir="C:\Program Files (x86)\MSBuild\14.0\Bin"
 rem This is the Visual Studio build directory (within the MPIR directory) 
 set srcdir="."
 
-%msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% %srcdir%\%src%\%src%.vcxproj
+echo %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% %srcdir%\%src%\%src%.vcxproj
 
 if /i "%libp%" == "LIB" (
-  %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
+  echo %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
 )
 
 if /i "%5" EQU "+tests" (
   set TESTDIR=.\mpir-tests\
   for /d %%d in (%TESTDIR%*) do (
-    echo %%d
     for %%f in (%%d\*.vcxproj) do (
-      echo %%f
-      %msbdir%\msbuild.exe /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% %%f
+      echo %msbdir%\msbuild.exe /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% %%f
     )
   )
 )
