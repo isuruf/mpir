@@ -32,7 +32,9 @@ if /i "%libp%" == "LIB" (
 if /i "%5" EQU "+tests" (
   set TESTDIR=.\mpir-tests\
   for /d %%d in (%TESTDIR%*) do (
+    echo %%d
     for %%f in (%%d\*.vcxproj) do (
+      echo %%f
       %msbdir%\msbuild.exe /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% %%f
     )
   )
